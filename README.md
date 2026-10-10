@@ -1,10 +1,10 @@
 # VSC Splitter
 
-**[English](#english)** · **[Español](#español)**
+**[English](#english)** · **[Español](#español)** · **[⬇ Download / Descargar](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest)**
 
-![VSC Splitter editor: a 4K monitor split into one main zone and four secondary zones](docs/screenshots/01-monitor-principal-mas-4.png)
+![Dragging a VS Code window into a zone and pressing "Aplicar distribución"; the windows on the monitor snap into place](docs/screenshots/demo-arrastrar-y-aplicar.gif)
 
-<sub>Screenshots use sample data · Capturas con datos de ejemplo — [docs/screenshots](docs/screenshots)</sub>
+<sub>Sample data · Datos de ejemplo — more screenshots / más capturas: [docs/screenshots](docs/screenshots)</sub>
 
 ---
 
@@ -19,6 +19,15 @@ Windows desktop app (C# · WPF · .NET 10) that arranges **Visual Studio Code** 
 - Profiles with autosave. Windows are recognized by their folder name, so a profile keeps working after closing VS Code or restarting the computer.
 
 > The user interface is in Spanish. Button names are quoted as they appear in the app, followed by a translation.
+
+### Download
+
+Get the latest version from [Releases](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest):
+
+- [**VscSplitter-win-x64.exe**](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest/download/VscSplitter-win-x64.exe): self-contained, nothing to install (Windows 10/11 x64).
+- [VscSplitter-win-x64-framework-dependent.exe](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest/download/VscSplitter-win-x64-framework-dependent.exe): much smaller, requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
+
+The executable is not code-signed, so Windows SmartScreen may warn the first time: choose **More info → Run anyway**.
 
 ### Requirements
 
@@ -121,6 +130,15 @@ App de escritorio para Windows (C# · WPF · .NET 10) que reparte las ventanas d
 - Arrastra y suelta las ventanas de VS Code en las zonas; también puedes moverlas de una zona a otra (se intercambian).
 - **Aplicar distribución** mueve y redimensiona todas las ventanas. Compensa los bordes invisibles de 7 px de Windows 10/11, que son la causa típica de que las ventanas «no queden alineadas».
 - Perfiles con autoguardado. Las ventanas se reconocen por el nombre de su carpeta, así que el perfil sigue sirviendo tras cerrar VS Code o reiniciar.
+
+### Descarga
+
+Descarga la última versión desde [Releases](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest):
+
+- [**VscSplitter-win-x64.exe**](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest/download/VscSplitter-win-x64.exe): autónomo, no hay que instalar nada (Windows 10/11 x64).
+- [VscSplitter-win-x64-framework-dependent.exe](https://github.com/ChristianFonseca/monitor_screen_splitter/releases/latest/download/VscSplitter-win-x64-framework-dependent.exe): mucho más pequeño, requiere el [runtime de escritorio de .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0).
+
+El ejecutable no está firmado, así que Windows SmartScreen puede avisar la primera vez: elige **Más información → Ejecutar de todas formas**.
 
 ### Requisitos
 
