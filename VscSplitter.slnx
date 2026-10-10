@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/VscSplitter.App/VscSplitter.App.csproj" />
+    <Project Path="src/VscSplitter.Core/VscSplitter.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VscSplitter.Tests/VscSplitter.Tests.csproj" />
+  </Folder>
+</Solution>

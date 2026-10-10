@@ -1,0 +1,16 @@
+<Window x:Class="VscSplitter.App.Views.IdentifyOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Identificar monitor"
+        Width="360" Height="300"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Topmost="True" ShowInTaskbar="False" ShowActivated="False" ResizeMode="NoResize"
+        FontFamily="Segoe UI Variable Display, Segoe UI">
+    <Border Margin="10" CornerRadius="28" Background="#F2141418" BorderBrush="{StaticResource App.Accent}" BorderThickness="3">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Number}" FontSize="120" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Resolution}" FontSize="20" Foreground="#FFE2E2EA" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding Info.FriendlyName}" FontSize="14" Foreground="#FF9C9CA8" HorizontalAlignment="Center" Margin="0,4,0,0" />
+        </StackPanel>
+    </Border>
+</Window>
