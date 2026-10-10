@@ -106,6 +106,10 @@ tools/New-AppIcon.ps1  Regenerates Assets/app.ico
 - The window name comes from VS Code's default title. If you changed `window.title` or use named VS Code profiles, recognition may fail; drag the window to its zone again and the profile updates.
 - Windows on other Windows virtual desktops are not detected.
 
+### License
+
+[MIT](LICENSE) © 2026 Christian Fonseca
+
 ---
 
 ## Español
@@ -203,3 +207,7 @@ tools/New-AppIcon.ps1  Regenera Assets/app.ico
 - Si una ventana de VS Code se ejecuta **como administrador**, la app también debe ejecutarse como administrador para poder moverla (Windows lo impide en caso contrario).
 - El nombre de la ventana sale del título por defecto de VS Code. Si cambiaste `window.title` o usas perfiles de VS Code con nombre, el reconocimiento puede fallar. En ese caso, vuelve a arrastrar la ventana a su zona y el perfil se actualiza.
 - Las ventanas que están en otro escritorio virtual de Windows no se detectan.
+
+### Licencia
+
+[MIT](LICENSE) © 2026 Christian Fonseca
