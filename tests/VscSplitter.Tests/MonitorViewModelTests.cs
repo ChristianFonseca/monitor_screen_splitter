@@ -141,6 +141,18 @@ public class MonitorViewModelTests
     }
 
     [Fact]
+    public void NonVsCodeEditorsAreLabelled()
+    {
+        var devin = Window("api");
+        devin.Update(new EditorWindowInfo { Handle = new IntPtr(7), Title = "api - Devin - Session", WorkspaceKey = "api", ActiveEditor = "Session", ProcessName = "Devin" });
+        var code = Window("web");
+        code.Update(new EditorWindowInfo { Handle = new IntPtr(8), Title = "a.ts - web - Visual Studio Code", WorkspaceKey = "web", ActiveEditor = "a.ts", ProcessName = "Code" });
+
+        Assert.Equal("Devin · Session", devin.Subtitle);
+        Assert.Equal("a.ts", code.Subtitle);
+    }
+
+    [Fact]
     public void ClosedWindowBecomesPlaceholder()
     {
         var window = Window("api");

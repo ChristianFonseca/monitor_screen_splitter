@@ -16,6 +16,9 @@ public class TitleParserTests
     [InlineData("app.py - project [WSL: Ubuntu] - Visual Studio Code", "project [WSL: Ubuntu]", "app.py")]
     [InlineData("settings.json - My Space (Workspace) - Visual Studio Code", "My Space (Workspace)", "settings.json")]
     [InlineData("a - b - c - repo - Cursor", "repo", "a - b - c")]
+    [InlineData("api-gateway - Devin - Refactor del login…", "api-gateway", "Refactor del login…")]
+    [InlineData("notes - Devin", "notes", "")]
+    [InlineData("main.ts - api - Devin - Revisión de la API", "api", "main.ts - Revisión de la API")]
     public void ExtractsFolderAndEditor(string title, string expectedKey, string expectedEditor)
     {
         var parsed = TitleParser.Parse(title);
@@ -28,6 +31,7 @@ public class TitleParserTests
     public void BareAppNameIsItsOwnKey()
     {
         Assert.Equal("Visual Studio Code", TitleParser.Parse("Visual Studio Code").WorkspaceKey);
+        Assert.Equal("Devin", TitleParser.Parse("Devin").WorkspaceKey);
     }
 
     [Fact]
@@ -38,8 +42,27 @@ public class TitleParserTests
     }
 
     [Fact]
+    public void DevinTitleReportsTheApp()
+    {
+        Assert.Equal("Devin", TitleParser.Parse("api-gateway - Devin - Session").AppName);
+    }
+
+    [Fact]
     public void UnknownAppKeepsLastSegment()
     {
         Assert.Equal("Notes", TitleParser.Parse("draft - Notes").WorkspaceKey);
+    }
+}
+
+public class WindowIdentityTests
+{
+    [Theory]
+    [InlineData("api", "Code", "API", "code", true)]
+    [InlineData("api", "Code", "api", "Devin", false)] // same folder open in two editors
+    [InlineData("api", null, "api", "Devin", true)]     // profile saved before the editor was recorded
+    [InlineData("api", "Devin", "web", "Devin", false)]
+    public void MatchesFolderAndEditor(string key, string? app, string otherKey, string? otherApp, bool expected)
+    {
+        Assert.Equal(expected, WindowIdentity.Matches(key, app, otherKey, otherApp));
     }
 }

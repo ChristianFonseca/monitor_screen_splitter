@@ -282,5 +282,7 @@ public static class LayoutEngine
         to.WindowKey = from.WindowKey;
         to.WindowTitle = from.WindowTitle;
         to.FolderUri = from.FolderUri;
+        to.App = from.App;
+        to.AppPath = from.AppPath;
     }
 }

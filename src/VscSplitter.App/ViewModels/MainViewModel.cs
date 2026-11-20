@@ -717,7 +717,8 @@ public sealed class MainViewModel : ObservableObject
 
         foreach (var placeholder in Windows.Where(w => w.IsMissing && w.IsAssigned).ToList())
         {
-            var live = Windows.FirstOrDefault(w => !w.IsMissing && !w.IsAssigned && KeysMatch(w.Key, placeholder.Key));
+            var live = Windows.FirstOrDefault(w => !w.IsMissing && !w.IsAssigned &&
+                WindowIdentity.Matches(w.Key, w.ProcessName, placeholder.Key, placeholder.ProcessName));
             if (live is null)
             {
                 continue;
@@ -900,7 +901,8 @@ public sealed class MainViewModel : ObservableObject
                 continue;
             }
 
-            var live = Windows.FirstOrDefault(w => !w.IsMissing && !w.IsAssigned && KeysMatch(w.Key, key));
+            var live = Windows.FirstOrDefault(w => !w.IsMissing && !w.IsAssigned &&
+                WindowIdentity.Matches(w.Key, w.ProcessName, key, zone.Definition.App));
             if (live is not null)
             {
                 zone.Window = live;
@@ -911,6 +913,8 @@ public sealed class MainViewModel : ObservableObject
             {
                 Title = zone.Definition.WindowTitle ?? key,
                 FolderUri = zone.Definition.FolderUri ?? FindUri(key),
+                ProcessName = zone.Definition.App ?? "",
+                ProcessPath = zone.Definition.AppPath,
             };
             Windows.Add(placeholder);
             zone.Window = placeholder;
@@ -931,6 +935,8 @@ public sealed class MainViewModel : ObservableObject
                 zone.Definition.WindowKey = zone.Window?.Key;
                 zone.Definition.WindowTitle = zone.Window?.Title;
                 zone.Definition.FolderUri = zone.Window?.FolderUri;
+                zone.Definition.App = string.IsNullOrEmpty(zone.Window?.ProcessName) ? null : zone.Window.ProcessName;
+                zone.Definition.AppPath = zone.Window?.ProcessPath;
             }
         }
     }
@@ -1098,13 +1104,6 @@ public sealed class MainViewModel : ObservableObject
             return;
         }
 
-        var executable = VsCodeLauncher.FindExecutable(Windows.Select(w => w.ProcessPath));
-        if (executable is null)
-        {
-            StatusText = "No se encontró Code.exe. Abre VS Code una vez y vuelve a intentarlo.";
-            return;
-        }
-
         IsBusy = true;
         var opened = 0;
         var unknown = new List<string>();
@@ -1121,6 +1120,17 @@ public sealed class MainViewModel : ObservableObject
                 }
 
                 window.FolderUri = uri;
+                // Reopen in the window's own editor (VS Code, Devin…).
+                var executable = VsCodeLauncher.FindExecutable(
+                    window.ProcessPath,
+                    window.ProcessName,
+                    Windows.Where(w => !w.IsMissing).Select(w => w.ProcessPath));
+                if (executable is null)
+                {
+                    failed.Add($"{window.Key} (no se encontró {(window.ProcessName.Length > 0 ? window.ProcessName : "Code")}.exe)");
+                    continue;
+                }
+
                 try
                 {
                     VsCodeLauncher.Open(executable, uri);
@@ -1138,7 +1148,7 @@ public sealed class MainViewModel : ObservableObject
             IsBusy = false;
         }
 
-        var text = $"Abriendo {opened} {(opened == 1 ? "ventana" : "ventanas")} en VS Code.";
+        var text = $"Abriendo {opened} {(opened == 1 ? "ventana" : "ventanas")} en su editor.";
         text += AutoPlaceEnabled
             ? " Se colocarán solas al aparecer."
             : " Activa «Auto-colocar» o pulsa «Aplicar» cuando aparezcan.";
@@ -1409,8 +1419,6 @@ public sealed class MainViewModel : ObservableObject
         _config.Profiles.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
 
     private string? FindUri(string key) => WorkspaceCatalog.Find(_catalog, key)?.Uri;
-
-    private static bool KeysMatch(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 
     private int MonitorIndexOf(PixelRect bounds)
     {

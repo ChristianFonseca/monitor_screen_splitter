@@ -17,6 +17,7 @@ Windows desktop app (C# · WPF · .NET 10) that arranges **Visual Studio Code** 
 - Drag and drop VS Code windows into zones; you can also move them from one zone to another (they swap places).
 - **Aplicar distribución** (Apply layout) moves and resizes every window. It compensates for the 7 px invisible borders of Windows 10/11 windows, the usual reason why hand-placed windows don't line up.
 - Profiles with autosave. Windows are recognized by their folder name, so a profile keeps working after closing VS Code or restarting the computer.
+- Works with **VS Code**, **VS Code Insiders** and the **Devin IDE** out of the box. Other VS Code-based editors can be added in *Procesos a gestionar* (Managed processes).
 
 > The user interface is in Spanish. Button names are quoted as they appear in the app, followed by a translation.
 
@@ -68,9 +69,9 @@ Other tools:
 
 #### After a restart
 
-- Each window is stored by its **folder name** (what VS Code shows in the title: `editor - folder - Visual Studio Code`). If a window closes, its zone keeps waiting for it and shows it dimmed as *no abierta* (not open).
+- Each window is stored by its **folder name** and its **editor**. The folder comes from the title: `editor - folder - Visual Studio Code` in VS Code, `folder - Devin - agent session` in the Devin IDE. If a window closes, its zone keeps waiting for it and shows it dimmed as *no abierta* (not open).
 - With **Auto-colocar ventanas al abrirse** (Auto-place windows when they open), a window goes to its zone by itself as soon as VS Code reopens that folder.
-- **Abrir faltantes** (Open missing) reopens the missing folders. Their paths are read from `%APPDATA%\Code\User\globalStorage\storage.json`.
+- **Abrir faltantes** (Open missing) reopens each missing folder in its own editor. Paths are read from each editor's `storage.json` (`%APPDATA%\Code\…`, `%APPDATA%\devin\…`).
 - **Iniciar con Windows** (Start with Windows) launches the app in the tray (`--tray`), so it places windows as soon as they appear. Publish the `.exe` to a fixed folder before enabling it.
 - **Aplicar al iniciar la app** (Apply on startup), or the `--apply` argument, places everything when the app starts.
 - When closed, the app keeps running in the tray (turn off *Al cerrar, seguir en la bandeja* to quit instead). The tray menu can apply the layout, open missing windows or exit.
@@ -98,7 +99,7 @@ Other tools:
 
 Everything is saved automatically to `%APPDATA%\VscSplitter\config.json`: profiles, per-monitor layouts, window assignments and options. Unexpected errors are logged to `error.log` in the same folder.
 
-Monitors are recognized by their stable device path. If that does not match, they are matched by position and resolution and, as a last resort, by `\\.\DISPLAYn`. Use *Procesos a gestionar* (Managed processes) to add other VS Code-based editors such as `Cursor` or `Code - Insiders`.
+Monitors are recognized by their stable device path. If that does not match, they are matched by position and resolution and, as a last resort, by `\\.\DISPLAYn`. By default the app manages `Code`, `Code - Insiders` and `Devin` (the Devin IDE process); use *Procesos a gestionar* (Managed processes) to add other VS Code-based editors such as `Cursor`.
 
 ### Project structure
 
@@ -130,6 +131,7 @@ App de escritorio para Windows (C# · WPF · .NET 10) que reparte las ventanas d
 - Arrastra y suelta las ventanas de VS Code en las zonas; también puedes moverlas de una zona a otra (se intercambian).
 - **Aplicar distribución** mueve y redimensiona todas las ventanas. Compensa los bordes invisibles de 7 px de Windows 10/11, que son la causa típica de que las ventanas «no queden alineadas».
 - Perfiles con autoguardado. Las ventanas se reconocen por el nombre de su carpeta, así que el perfil sigue sirviendo tras cerrar VS Code o reiniciar.
+- Funciona con **VS Code**, **VS Code Insiders** y el **IDE de Devin** sin configurar nada. Otros editores basados en VS Code se añaden en *Procesos a gestionar*.
 
 ### Descarga
 
@@ -179,9 +181,9 @@ Otras herramientas:
 
 #### Después de reiniciar
 
-- Cada ventana guarda el **nombre de su carpeta** (lo que VS Code pone en el título: `editor - carpeta - Visual Studio Code`). Si una ventana se cierra, su zona la sigue esperando y aparece atenuada como *no abierta*.
+- Cada ventana guarda el **nombre de su carpeta** y su **editor**. La carpeta sale del título: `editor - carpeta - Visual Studio Code` en VS Code y `carpeta - Devin - sesión del agente` en el IDE de Devin. Si una ventana se cierra, su zona la sigue esperando y aparece atenuada como *no abierta*.
 - Con **Auto-colocar ventanas al abrirse**, cuando VS Code vuelve a abrir esa carpeta, la ventana va sola a su zona.
-- **Abrir faltantes** reabre las carpetas que falten. La ruta se obtiene de `%APPDATA%\Code\User\globalStorage\storage.json`.
+- **Abrir faltantes** reabre cada carpeta que falte en su propio editor. La ruta se obtiene del `storage.json` de cada editor (`%APPDATA%\Code\…`, `%APPDATA%\devin\…`).
 - **Iniciar con Windows** arranca la app en la bandeja (`--tray`) para que coloque las ventanas en cuanto aparezcan. Antes de activarlo, publica el `.exe` en una carpeta fija.
 - **Aplicar al iniciar la app** (o el argumento `--apply`) coloca todo al arrancar.
 - Al cerrar, la app sigue activa en la bandeja (desactívalo con *Al cerrar, seguir en la bandeja*). Desde el menú de la bandeja puedes aplicar, abrir faltantes o salir.
@@ -209,7 +211,7 @@ Otras herramientas:
 
 Todo se guarda automáticamente en `%APPDATA%\VscSplitter\config.json`: perfiles, distribución por monitor, asignaciones y opciones. Los errores inesperados se registran en `error.log`, en la misma carpeta.
 
-Los monitores se reconocen por su ruta de dispositivo estable. Si no coincide, se buscan por posición y resolución y, en último caso, por `\\.\DISPLAYn`. Con *Procesos a gestionar* puedes añadir otros editores basados en VS Code, como `Cursor` o `Code - Insiders`.
+Los monitores se reconocen por su ruta de dispositivo estable. Si no coincide, se buscan por posición y resolución y, en último caso, por `\\.\DISPLAYn`. Por defecto se gestionan `Code`, `Code - Insiders` y `Devin` (el proceso del IDE de Devin); con *Procesos a gestionar* puedes añadir otros editores basados en VS Code, como `Cursor`.
 
 ### Estructura
 

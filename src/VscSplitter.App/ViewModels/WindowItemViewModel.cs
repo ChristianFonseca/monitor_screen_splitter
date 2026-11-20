@@ -14,6 +14,7 @@ public sealed class WindowItemViewModel : ObservableObject
     private string _title = "";
     private string _activeEditor = "";
     private bool _isMinimized;
+    private string _processName = "";
     private string? _folderUri;
     private ZoneViewModel? _zone;
     private Brush _colorBrush = Brushes.Gray;
@@ -85,7 +86,30 @@ public sealed class WindowItemViewModel : ObservableObject
 
     public PixelRect Bounds { get; private set; }
 
-    public string? ProcessPath { get; private set; }
+    /// <summary>Editor process: "Code", "Devin"… (from the profile for windows that are not open).</summary>
+    public string ProcessName
+    {
+        get => _processName;
+        set
+        {
+            if (SetProperty(ref _processName, value ?? ""))
+            {
+                OnPropertyChanged(nameof(AppLabel));
+                OnPropertyChanged(nameof(Subtitle));
+            }
+        }
+    }
+
+    /// <summary>Editor executable, used to reopen the folder in the same editor.</summary>
+    public string? ProcessPath { get; set; }
+
+    /// <summary>Editor shown next to the window; empty for regular VS Code.</summary>
+    public string AppLabel => _processName.ToLowerInvariant() switch
+    {
+        "" or "code" => "",
+        "code - insiders" => "Insiders",
+        _ => _processName,
+    };
 
     public string? FolderUri
     {
@@ -120,13 +144,14 @@ public sealed class WindowItemViewModel : ObservableObject
     {
         get
         {
+            var app = AppLabel.Length > 0 ? AppLabel + " · " : "";
             if (IsMissing)
             {
-                return _folderUri is null ? "No abierta" : "No abierta · se puede reabrir";
+                return app + (_folderUri is null ? "No abierta" : "No abierta · se puede reabrir");
             }
 
             var editor = string.IsNullOrEmpty(_activeEditor) ? "Sin editor activo" : _activeEditor;
-            return _isMinimized ? $"Minimizada · {editor}" : editor;
+            return app + (_isMinimized ? $"Minimizada · {editor}" : editor);
         }
     }
 
@@ -150,6 +175,7 @@ public sealed class WindowItemViewModel : ObservableObject
         ActiveEditor = info.ActiveEditor;
         IsMinimized = info.IsMinimized;
         Bounds = info.FrameBounds;
+        ProcessName = info.ProcessName;
         ProcessPath = info.ProcessPath;
     }
 

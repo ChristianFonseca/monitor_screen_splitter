@@ -71,8 +71,16 @@ public sealed class ConfigStore
             .ToList();
         if (config.Settings.ProcessNames.Count == 0)
         {
-            config.Settings.ProcessNames = ["Code", "Code - Insiders"];
+            config.Settings.ProcessNames = [.. AppSettings.DefaultProcessNames];
         }
+
+        // v1 → v2: manage the Devin IDE too. Only once, so removing it later sticks.
+        if (config.Version < 2 && !config.Settings.ProcessNames.Contains("Devin", StringComparer.OrdinalIgnoreCase))
+        {
+            config.Settings.ProcessNames.Add("Devin");
+        }
+
+        config.Version = AppConfig.CurrentVersion;
 
         config.Profiles ??= [];
         config.Profiles.RemoveAll(p => p is null);

@@ -69,6 +69,7 @@ public class LayoutEngineTests
     {
         var grid = LayoutEngine.CreateGrid(2, 2);
         grid.Zones[2].WindowKey = "bottom-left";
+        grid.Zones[2].App = "Devin";
 
         var merged = LayoutEngine.TryMerge(grid, [0, 2]);
 
@@ -77,6 +78,7 @@ public class LayoutEngineTests
         Assert.True(LayoutEngine.IsValidTiling(grid));
         Assert.Equal((0, 0, 2, 1), (merged!.Row, merged.Column, merged.RowSpan, merged.ColumnSpan));
         Assert.Equal("bottom-left", merged.WindowKey);
+        Assert.Equal("Devin", merged.App);
         var rects = LayoutEngine.ComputeZoneRects(grid, new PixelRect(0, 0, 1000, 800), 0, 0);
         Assert.Equal(new PixelRect(0, 0, 500, 800), rects[grid.Zones.IndexOf(merged)]);
     }

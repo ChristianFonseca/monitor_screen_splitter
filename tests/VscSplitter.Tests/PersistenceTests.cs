@@ -75,6 +75,34 @@ public sealed class ConfigStoreTests : IDisposable
     }
 
     [Fact]
+    public void OldConfigsStartManagingTheDevinIde()
+    {
+        var config = new AppConfig { Version = 1, Settings = new AppSettings { ProcessNames = ["Code"] } };
+
+        ConfigStore.Sanitize(config);
+
+        Assert.Equal(["Code", "Devin"], config.Settings.ProcessNames);
+        Assert.Equal(AppConfig.CurrentVersion, config.Version);
+    }
+
+    [Fact]
+    public void RemovingDevinLaterSticks()
+    {
+        var config = new AppConfig { Version = AppConfig.CurrentVersion, Settings = new AppSettings { ProcessNames = ["Code"] } };
+
+        ConfigStore.Sanitize(config);
+
+        Assert.Equal(["Code"], config.Settings.ProcessNames);
+    }
+
+    [Fact]
+    public void NewConfigsManageVsCodeAndDevin()
+    {
+        Assert.Contains("Devin", new AppConfig().Settings.ProcessNames);
+        Assert.Contains("Code", new AppConfig().Settings.ProcessNames);
+    }
+
+    [Fact]
     public void SanitizeFixesDuplicateNamesAndActiveProfile()
     {
         var config = new AppConfig

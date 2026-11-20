@@ -3,7 +3,10 @@ namespace VscSplitter.Core.Models;
 /// <summary>Root of the persisted configuration file.</summary>
 public sealed class AppConfig
 {
-    public int Version { get; set; } = 1;
+    /// <summary>2: the Devin IDE is managed by default (older configs get it added on load).</summary>
+    public const int CurrentVersion = 2;
+
+    public int Version { get; set; } = CurrentVersion;
 
     public string ActiveProfile { get; set; } = "Principal";
 
@@ -26,7 +29,10 @@ public sealed class AppSettings
     public bool MinimizeToTray { get; set; } = true;
 
     /// <summary>Process names (without .exe) whose windows are managed.</summary>
-    public List<string> ProcessNames { get; set; } = ["Code", "Code - Insiders"];
+    public List<string> ProcessNames { get; set; } = [.. DefaultProcessNames];
+
+    /// <summary>VS Code, VS Code Insiders and the Devin IDE (a VS Code fork whose process is Devin.exe).</summary>
+    public static IReadOnlyList<string> DefaultProcessNames { get; } = ["Code", "Code - Insiders", "Devin"];
 
     public WindowPlacementSettings? MainWindow { get; set; }
 
@@ -111,4 +117,10 @@ public sealed class ZoneDefinition
 
     /// <summary>VS Code folder/workspace URI, used to reopen the window if it is missing.</summary>
     public string? FolderUri { get; set; }
+
+    /// <summary>Editor process of the assigned window ("Code", "Devin"…): the same folder can be open in two editors.</summary>
+    public string? App { get; set; }
+
+    /// <summary>Editor executable, used to reopen the folder in the same editor.</summary>
+    public string? AppPath { get; set; }
 }

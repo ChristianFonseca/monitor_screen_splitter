@@ -548,7 +548,7 @@
                         <CheckBox Style="{StaticResource OptionCheck}" Content="Al cerrar, seguir en la bandeja" IsChecked="{Binding MinimizeToTray}" />
                         <TextBlock Text="Procesos a gestionar" Margin="0,10,0,4" Foreground="{StaticResource App.TextDim}" />
                         <TextBox Text="{Binding ProcessNamesText, UpdateSourceTrigger=LostFocus}"
-                                 ToolTip="Nombres de proceso separados por coma (p. ej. Code, Code - Insiders, Cursor)" />
+                                 ToolTip="Nombres de proceso separados por coma (p. ej. Code, Code - Insiders, Devin, Cursor)" />
                     </StackPanel>
                 </ScrollViewer>
             </Border>

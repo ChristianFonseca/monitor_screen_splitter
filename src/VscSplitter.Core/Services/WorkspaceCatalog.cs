@@ -11,7 +11,8 @@ public sealed record WorkspaceEntry(string Key, string Uri, bool IsWorkspaceFile
 /// </summary>
 public static class WorkspaceCatalog
 {
-    private static readonly string[] Products = ["Code", "Code - Insiders", "VSCodium", "Cursor", "Windsurf"];
+    // %APPDATA% folder of each editor; the Devin IDE uses "devin".
+    private static readonly string[] Products = ["Code", "Code - Insiders", "VSCodium", "Cursor", "Windsurf", "devin"];
 
     public static IReadOnlyList<string> DefaultStorageFiles()
     {
